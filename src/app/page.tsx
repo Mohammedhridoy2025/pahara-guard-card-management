@@ -118,6 +118,7 @@ export default function Home() {
   
   const handlePrintSingle = async () => {
     setIsPrinting(true);
+    setBulkCardsData([]); // Ensure bulk data is cleared for single print
     try {
       await handleUpdateSingleCard(singleForm.getValues());
       setTimeout(() => {
@@ -308,7 +309,7 @@ export default function Home() {
             </div>
 
             <div className="w-full lg:w-3/5 xl:w-2/3 flex flex-col items-center gap-6">
-              <div className="w-full max-w-lg printable-area single-card-print">
+              <div className="w-full max-w-lg">
                  <GuardCardPreview {...(singleCardData || singleForm.getValues())} qrCodeData={singleCardData?.qrCodeData ?? null} />
               </div>
               <div className="w-full max-w-md">
@@ -439,14 +440,14 @@ export default function Home() {
              <div className="w-full xl:w-1/2 flex flex-col items-center gap-6">
                  <h2 className="text-2xl font-bold text-white">কার্ড প্রিভিউ</h2>
                  <div className="w-full p-4 bg-gray-900/20 rounded-lg max-h-[80vh] overflow-y-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bulk-cards-preview">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                        { (isBulkTransitionPending) ? 
                           Array.from({ length: bulkForm.getValues('guards').length }).map((_, i) => (
                              <div key={i} className="w-full aspect-[85.6/54] bg-gray-500/50 rounded-xl animate-pulse"></div>
                           ))
                          : bulkCardsData.length > 0 ? (
                            bulkCardsData.map((card, index) => (
-                              <div key={index} className="printable-area">
+                              <div key={index}>
                                  <GuardCardPreview {...card} />
                               </div>
                            ))
@@ -486,3 +487,5 @@ export default function Home() {
     </>
   );
 }
+
+    

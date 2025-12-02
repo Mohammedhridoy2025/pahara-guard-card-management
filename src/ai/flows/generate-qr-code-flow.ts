@@ -42,6 +42,7 @@ const generateQrCodeFlow = ai.defineFlow(
     outputSchema: GenerateQrCodeOutputSchema,
   },
   async input => {
+    // The photoDataUri is intentionally excluded from the QR code data to keep the data size small.
     const qrData = JSON.stringify({
       name: input.name,
       address: input.address,
@@ -53,3 +54,5 @@ const generateQrCodeFlow = ai.defineFlow(
     return {qrCodeData: qrData};
   }
 );
+
+    

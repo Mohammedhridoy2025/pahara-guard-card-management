@@ -130,6 +130,8 @@
     align-items: center;
     overflow: hidden;
     page-break-inside: avoid;
+    padding: 5mm; /* Add some padding around each card */
+    box-sizing: border-box;
   }
    .single-card-print-container {
     width: 100vw;
@@ -147,10 +149,12 @@
 
   @page {
     size: A4 portrait;
-    margin: 1cm;
+    margin: 0;
   }
 }
 
 .print-only {
   display: none;
 }
+
+    
