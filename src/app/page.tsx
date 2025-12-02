@@ -37,10 +37,6 @@ const formSchema = z.object({
     .min(1, "ঠিকানা আবশ্যক")
     .default("কালিপুর, হোমনা, কুমিল্লা"),
   idNumber: z.string().min(1, "আইডি নম্বর আবশ্যক").default("SG-2023-7865"),
-  validity: z
-    .string()
-    .min(1, "কার্ড বৈধতা আবশ্যক")
-    .default("০১/০১/২০২৩ - ৩১/১২/২০২৪"),
   emergencyContacts: z.string().optional().default("সাকিব 01866642992\nসাইদ 01831385524\nনয়ন 01603077790"),
   photoDataUri: z.string().optional(),
 });
@@ -157,19 +153,6 @@ export default function Home() {
                         <FormLabel>আইডি নম্বর</FormLabel>
                         <FormControl>
                           <Input placeholder="আইডি নম্বর লিখুন" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="validity"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>কার্ড বৈধতা</FormLabel>
-                        <FormControl>
-                          <Input placeholder="DD/MM/YYYY - DD/MM/YYYY" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

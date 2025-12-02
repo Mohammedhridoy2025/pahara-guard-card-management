@@ -8,7 +8,6 @@ interface GuardCardPreviewProps {
   name: string;
   address: string;
   idNumber: string;
-  validity: string;
   emergencyContacts?: string;
   photoDataUri?: string | null;
   qrCodeData: string | null;
@@ -18,7 +17,6 @@ export function GuardCardPreview({
   name,
   address,
   idNumber,
-  validity,
   emergencyContacts,
   photoDataUri,
   qrCodeData,
@@ -29,7 +27,7 @@ export function GuardCardPreview({
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 right-0 h-[5px] bg-gradient-to-r from-gold-start via-gold-mid to-gold-end"></div>
         <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-bl-full"></div>
-        <div className="absolute bottom-28 left-0 right-0 h-4 security-strip z-0"></div>
+        <div className="absolute bottom-16 left-0 right-0 h-4 security-strip z-0"></div>
 
         {/* Card Header */}
         <header className="relative z-10 flex justify-between items-center border-b-2 border-white/30 pb-2">
@@ -89,13 +87,9 @@ export function GuardCardPreview({
         )}
 
         {/* Card Footer */}
-        <footer className="relative z-10 text-center border-t border-white/30 pt-2 text-xs mt-auto">
-          <div>বৈধতা: {validity || "DD/MM/YYYY - DD/MM/YYYY"}</div>
+        <footer className="relative z-10 text-center text-xs mt-auto pt-2">
+          <div>অফিসিয়াল কার্ড</div>
         </footer>
-
-        <div className="absolute bottom-1 right-2 text-[8px] opacity-70 z-10">
-          আর্থিক সহযোগিতায় কালিপুরের প্রবাসী
-        </div>
       </div>
     </div>
   );
