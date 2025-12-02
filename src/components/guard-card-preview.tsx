@@ -22,7 +22,7 @@ export function GuardCardPreview({
   qrCodeData,
 }: GuardCardPreviewProps) {
   return (
-    <div className="w-full max-w-lg aspect-[85.6/54] transition-all duration-300 card-print">
+    <div className="w-full aspect-[85.6/54] transition-all duration-300 card-print">
       <div className="relative w-full h-full p-3 text-white rounded-xl shadow-2xl overflow-hidden bg-gradient-to-br from-guard-card-start to-guard-card-end flex flex-col justify-between">
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 right-0 h-[5px] bg-gradient-to-r from-gold-start via-gold-mid to-gold-end"></div>
@@ -88,7 +88,7 @@ export function GuardCardPreview({
 
         {/* Card Footer */}
         <footer className="relative z-10 text-center text-xs mt-auto pt-2">
-          <div>অফিসিয়াল কার্ড</div>
+          <div>আর্থিক সহযোগিতায় কালিপুরের প্রবাসী</div>
         </footer>
       </div>
     </div>
