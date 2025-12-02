@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useTransition, useRef, useCallback } from "react";
@@ -150,8 +151,13 @@ export default function Home() {
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
         pixelRatio: 2,
-        // Set a higher quality for the output image
         quality: 1.0,
+        // The library attempts to fetch all external resources and embed them in the resulting image.
+        // For external resources, like Google Fonts, we need to provide a custom fetch function that will not trigger a CORS error.
+        fetchRequestInit: {
+          headers: new Headers(),
+          mode: 'no-cors', // Use 'no-cors' to avoid CORS issues with Google Fonts.
+        },
       });
       const link = document.createElement("a");
       link.download = `${cardName.replace(/\s+/g, '_').toLowerCase()}_card.png`;
