@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview Generates a QR code with security guard details, including a timestamp and photo URL.
+ * @fileOverview Generates a QR code with security guard details, including a timestamp.
  *
  * - generateQrCode - A function that handles the QR code generation process.
  * - GenerateQrCodeInput - The input type for the generateQrCode function.
@@ -47,7 +47,6 @@ const generateQrCodeFlow = ai.defineFlow(
       address: input.address,
       idNumber: input.idNumber,
       validity: input.validity,
-      photoUrl: input.photoDataUri,
       timestamp: new Date().toISOString(),
     });
 
