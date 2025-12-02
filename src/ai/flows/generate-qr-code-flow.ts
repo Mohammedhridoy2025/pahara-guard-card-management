@@ -54,5 +54,3 @@ const generateQrCodeFlow = ai.defineFlow(
     return {qrCodeData: qrData};
   }
 );
-
-    

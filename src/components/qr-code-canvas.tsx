@@ -16,7 +16,7 @@ export function QRCodeCanvas({ data, className }: QRCodeCanvasProps) {
 
   useEffect(() => {
     if (canvasRef.current && containerRef.current && data) {
-      const containerWidth = containerRef.current.offsetWidth - 6; // Subtract padding
+      const containerWidth = containerRef.current.offsetWidth;
       QRCode.toCanvas(
         canvasRef.current,
         data,
@@ -29,7 +29,9 @@ export function QRCodeCanvas({ data, className }: QRCodeCanvasProps) {
           },
         },
         (error) => {
-          if (error) console.error(error);
+          if (error) {
+             console.error("QR Code Error: ", error);
+          }
         }
       );
     }
@@ -43,7 +45,7 @@ export function QRCodeCanvas({ data, className }: QRCodeCanvasProps) {
       {!data ? (
         <Skeleton className="w-full h-full aspect-square" />
       ) : (
-        <canvas ref={canvasRef} className="w-full h-full" />
+        <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />
       )}
     </div>
   );
