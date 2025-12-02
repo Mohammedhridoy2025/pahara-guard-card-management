@@ -39,7 +39,7 @@ export function PhotoUploader({ onPhotoUpload }: PhotoUploaderProps) {
   return (
     <div>
       <div
-        className="relative group w-full p-4 border-2 border-dashed rounded-lg cursor-pointer text-center flex flex-col justify-center items-center h-48 transition-colors hover:border-primary/80 hover:bg-accent/10"
+        className="relative group w-full p-4 border-2 border-dashed rounded-lg cursor-pointer text-center flex flex-col justify-center items-center h-60 transition-colors hover:border-primary/80 hover:bg-accent/10"
         onClick={() => fileInputRef.current?.click()}
       >
         {preview ? (

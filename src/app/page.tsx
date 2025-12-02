@@ -158,6 +158,19 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="photoDataUri"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>ছবি আপলোড করুন</FormLabel>
+                        <FormControl>
+                          <PhotoUploader onPhotoUpload={handlePhotoUpload} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                    <FormField
                     control={form.control}
                     name="emergencyContacts"
@@ -175,20 +188,6 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="photoDataUri"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>ছবি আপলোড করুন</FormLabel>
-                        <FormControl>
-                          <PhotoUploader onPhotoUpload={handlePhotoUpload} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
                   <Button
                     type="submit"
                     disabled={isSubmitting}
