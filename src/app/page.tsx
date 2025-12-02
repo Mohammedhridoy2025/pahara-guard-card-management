@@ -152,11 +152,8 @@ export default function Home() {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1.0,
-        // The library attempts to fetch all external resources and embed them in the resulting image.
-        // For external resources, like Google Fonts, we need to provide a custom fetch function that will not trigger a CORS error.
         fetchRequestInit: {
-          headers: new Headers(),
-          mode: 'no-cors', // Use 'no-cors' to avoid CORS issues with Google Fonts.
+          mode: 'no-cors',
         },
       });
       const link = document.createElement("a");
@@ -547,5 +544,3 @@ export default function Home() {
     </>
   );
 }
-
-    
