@@ -152,9 +152,6 @@ export default function Home() {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1.0,
-        fetchRequestInit: {
-          mode: 'no-cors',
-        },
       });
       const link = document.createElement("a");
       link.download = `${cardName.replace(/\s+/g, '_').toLowerCase()}_card.png`;
