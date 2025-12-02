@@ -76,14 +76,14 @@ export default function Home() {
     }
   };
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
     // Generate QR code with latest data before printing
-    handleUpdateCard(form.getValues()).then(() => {
-      // Small delay to ensure QR code is rendered
-      setTimeout(() => {
-         window.print();
-      }, 300)
-    });
+    await handleUpdateCard(form.getValues());
+    
+    // Small delay to ensure QR code is rendered before printing
+    setTimeout(() => {
+        window.print();
+    }, 300);
   };
 
   const handlePhotoUpload = (dataUri: string | null) => {
