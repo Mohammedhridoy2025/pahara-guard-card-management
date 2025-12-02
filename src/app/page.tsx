@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef, useCallback } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { toPng } from "html-to-image";
 import { generateQrCode, type GenerateQrCodeInput } from "@/ai/flows/generate-qr-code-flow";
 import { useToast } from "@/hooks/use-toast";
 
@@ -29,7 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Printer, PlusCircle, Trash2 } from "lucide-react";
+import { Loader2, Printer, PlusCircle, Trash2, Download } from "lucide-react";
 
 const singleFormSchema = z.object({
   name: z.string().min(1, "পুরো নাম আবশ্যক"),
@@ -62,6 +63,10 @@ export default function Home() {
   const [isPrinting, setIsPrinting] = useState(false);
   const { toast } = useToast();
   const [isBulkTransitionPending, startBulkTransition] = useTransition();
+
+  const singleCardRef = useRef<HTMLDivElement>(null);
+  const bulkCardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
 
   const singleForm = useForm<SingleFormValues>({
     resolver: zodResolver(singleFormSchema),
@@ -131,6 +136,42 @@ export default function Home() {
     }
   };
 
+  const handleDownload = useCallback(async (cardRef: React.RefObject<HTMLDivElement>, cardName: string) => {
+    if (!cardRef.current) {
+      toast({
+        variant: "destructive",
+        title: "ত্রুটি",
+        description: "কার্ড প্রিভিউ পাওয়া যায়নি।",
+      });
+      return;
+    }
+
+    try {
+      const dataUrl = await toPng(cardRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        // Set a higher quality for the output image
+        quality: 1.0,
+      });
+      const link = document.createElement("a");
+      link.download = `${cardName.replace(/\s+/g, '_').toLowerCase()}_card.png`;
+      link.href = dataUrl;
+      link.click();
+      toast({
+        title: "সফল!",
+        description: "কার্ড সফলভাবে ডাউনলোড হয়েছে।",
+      });
+    } catch (err) {
+      console.error(err);
+      toast({
+        variant: "destructive",
+        title: "ত্রুটি",
+        description: "কার্ড ডাউনলোড করতে ব্যর্থ হয়েছে।",
+      });
+    }
+  }, [toast]);
+
+
   const handleGenerateBulkCards = async (values: BulkFormValues) => {
     setIsSubmitting(true);
     try {
@@ -147,6 +188,7 @@ export default function Home() {
       const generatedCards = await Promise.all(cardDataPromises);
       startBulkTransition(() => {
         setBulkCardsData(generatedCards);
+        bulkCardRefs.current = generatedCards.map(() => null);
       });
       
       toast({
@@ -310,9 +352,13 @@ export default function Home() {
 
             <div className="w-full lg:w-3/5 xl:w-2/3 flex flex-col items-center gap-6">
               <div className="w-full max-w-lg">
-                 <GuardCardPreview {...(singleCardData || singleForm.getValues())} qrCodeData={singleCardData?.qrCodeData ?? null} />
+                 <GuardCardPreview ref={singleCardRef} {...(singleCardData || singleForm.getValues())} qrCodeData={singleCardData?.qrCodeData ?? null} />
               </div>
-              <div className="w-full max-w-md">
+              <div className="w-full max-w-md grid grid-cols-2 gap-4">
+                 <Button onClick={() => handleDownload(singleCardRef, singleForm.getValues("name"))} className="w-full" size="lg">
+                    <Download className="mr-2 h-5 w-5"/>
+                    ডাউনলোড
+                 </Button>
                 <Button onClick={handlePrintSingle} disabled={isPrinting} className="w-full" size="lg">
                   {isPrinting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Printer className="mr-2 h-5 w-5" />}
                   প্রিন্ট করুন
@@ -447,8 +493,16 @@ export default function Home() {
                           ))
                          : bulkCardsData.length > 0 ? (
                            bulkCardsData.map((card, index) => (
-                              <div key={index}>
-                                 <GuardCardPreview {...card} />
+                              <div key={index} className="space-y-2">
+                                <GuardCardPreview ref={(el) => (bulkCardRefs.current[index] = el)} {...card} />
+                                <Button
+                                  onClick={() => handleDownload({ current: bulkCardRefs.current[index] }, card.name)}
+                                  className="w-full"
+                                  variant="secondary"
+                                >
+                                  <Download className="mr-2" />
+                                  ডাউনলোড
+                                </Button>
                               </div>
                            ))
                         ) : (
@@ -487,5 +541,3 @@ export default function Home() {
     </>
   );
 }
-
-    

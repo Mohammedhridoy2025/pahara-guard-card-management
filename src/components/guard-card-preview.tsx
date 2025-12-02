@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import Image from "next/image";
 import { QRCodeCanvas } from "./qr-code-canvas";
 import { User, Phone } from "lucide-react";
@@ -13,16 +14,16 @@ interface GuardCardPreviewProps {
   qrCodeData: string | null;
 }
 
-export function GuardCardPreview({
+export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPreviewProps>(({
   name,
   address,
   idNumber,
   emergencyContacts,
   photoDataUri,
   qrCodeData,
-}: GuardCardPreviewProps) {
+}, ref) => {
   return (
-    <div className="w-full aspect-[85.6/54] transition-all duration-300 card-print">
+    <div ref={ref} className="w-full aspect-[85.6/54] transition-all duration-300 card-print bg-white">
       <div className="relative w-full h-full p-3 text-white rounded-xl shadow-2xl overflow-hidden bg-gradient-to-br from-guard-card-start to-guard-card-end flex flex-col justify-between">
         {/* Decorative Elements */}
         <div className="absolute top-0 left-0 right-0 h-[5px] bg-gradient-to-r from-gold-start via-gold-mid to-gold-end"></div>
@@ -93,4 +94,6 @@ export function GuardCardPreview({
       </div>
     </div>
   );
-}
+});
+
+GuardCardPreview.displayName = 'GuardCardPreview';
