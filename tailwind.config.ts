@@ -10,11 +10,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['PT Sans', 'sans-serif'],
+        headline: ['PT Sans', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
+        'guard-card-start': '#1a3a8f',
+        'guard-card-end': '#2a5bd7',
+        'gold-start': '#ffd700',
+        'gold-mid': '#ffec8b',
+        'gold-end': '#ffd700',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
