@@ -152,8 +152,8 @@ export default function Home() {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1.0,
+        skipAutoScale: true,
         filter: (node) => {
-          // Exclude the link to Google Fonts to prevent CORS issues
           if (node.tagName === 'LINK' && (node as HTMLLinkElement).href.includes('fonts.googleapis.com')) {
             return false;
           }
@@ -548,5 +548,3 @@ export default function Home() {
     </>
   );
 }
-
-    
