@@ -27,6 +27,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Printer } from "lucide-react";
 
 const formSchema = z.object({
@@ -40,6 +41,7 @@ const formSchema = z.object({
     .string()
     .min(1, "কার্ড বৈধতা আবশ্যক")
     .default("০১/০১/২০২৩ - ৩১/১২/২০২৪"),
+  emergencyContacts: z.string().optional().default("সাকিব 01866642992\nসাইদ 01831385524\nনয়ন 01603077790"),
   photoDataUri: z.string().optional(),
 });
 type FormValues = z.infer<typeof formSchema>;
@@ -173,6 +175,23 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
+                   <FormField
+                    control={form.control}
+                    name="emergencyContacts"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>জরুরি প্রয়োজনে যোগাযোগ</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="নাম এবং মোবাইল নম্বর লিখুন"
+                            {...field}
+                            rows={3}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="photoDataUri"
@@ -204,7 +223,7 @@ export default function Home() {
         </div>
 
         <div className="w-full lg:w-3/5 xl:w-2/3 flex flex-col items-center gap-6">
-          <div className="w-full max-w-md printable-area">
+          <div className="w-full max-w-lg printable-area">
             <GuardCardPreview {...watchedValues} qrCodeData={qrCodeData} />
           </div>
           <div className="w-full max-w-md no-print">

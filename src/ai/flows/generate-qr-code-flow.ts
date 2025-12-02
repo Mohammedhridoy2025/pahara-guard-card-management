@@ -17,11 +17,12 @@ const GenerateQrCodeInputSchema = z.object({
   address: z.string().describe('The address of the security guard.'),
   idNumber: z.string().describe('The ID number of the security guard.'),
   validity: z.string().describe('The card validity period.'),
+  emergencyContacts: z.string().optional().describe('Emergency contact numbers.'),
   photoDataUri: z
     .string()
     .optional()
     .describe(
-      'A photo of the security guard, as a data URI that must include a MIME type and use Base64 encoding. Expected format: \'data:<mimetype>;base64,<encoded_data>\'.' // Photo is optional
+      "A photo of the security guard, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'." // Photo is optional
     ),
 });
 export type GenerateQrCodeInput = z.infer<typeof GenerateQrCodeInputSchema>;
@@ -47,6 +48,7 @@ const generateQrCodeFlow = ai.defineFlow(
       address: input.address,
       idNumber: input.idNumber,
       validity: input.validity,
+      emergencyContacts: input.emergencyContacts,
       timestamp: new Date().toISOString(),
     });
 
