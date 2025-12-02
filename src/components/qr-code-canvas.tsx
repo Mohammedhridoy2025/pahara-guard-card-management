@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import QRCode from "qrcode";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface QRCodeCanvasProps {
   data: string;
@@ -11,14 +12,16 @@ interface QRCodeCanvasProps {
 
 export function QRCodeCanvas({ data, className }: QRCodeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (canvasRef.current && data) {
+    if (canvasRef.current && containerRef.current && data) {
+      const containerWidth = containerRef.current.offsetWidth - 6; // Subtract padding
       QRCode.toCanvas(
         canvasRef.current,
         data,
         {
-          width: 70,
+          width: containerWidth,
           margin: 1,
           color: {
             dark: "#000000",
@@ -34,12 +37,13 @@ export function QRCodeCanvas({ data, className }: QRCodeCanvasProps) {
 
   return (
     <div
-      className={`flex items-center justify-center bg-white rounded-md p-[3px] ${className}`}
+      ref={containerRef}
+      className={cn("flex items-center justify-center bg-white rounded-md p-[3px] overflow-hidden", className)}
     >
       {!data ? (
-        <Skeleton className="w-[64px] h-[64px]" />
+        <Skeleton className="w-full h-full aspect-square" />
       ) : (
-        <canvas ref={canvasRef} style={{ width: "64px", height: "64px" }} />
+        <canvas ref={canvasRef} className="w-full h-full" />
       )}
     </div>
   );
