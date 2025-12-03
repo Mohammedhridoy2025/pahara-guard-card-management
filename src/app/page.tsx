@@ -152,12 +152,8 @@ export default function Home() {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1.0,
-        skipAutoScale: true,
-        filter: (node) => {
-          if (node.tagName === 'LINK' && (node as HTMLLinkElement).href.includes('fonts.googleapis.com')) {
-            return false;
-          }
-          return true;
+        filter: (node: HTMLElement) => {
+          return (node.tagName !== 'LINK' || !(node as HTMLLinkElement).href.includes('fonts.googleapis.com'));
         },
       });
       const link = document.createElement("a");
@@ -549,4 +545,5 @@ export default function Home() {
   );
 }
 
+    
     
