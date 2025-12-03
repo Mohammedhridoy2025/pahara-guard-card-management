@@ -43,7 +43,7 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
         {/* Card Body */}
         <div className="relative flex p-3 gap-3 flex-1 z-10">
           {/* Left Column: Photo and Emergency Contacts */}
-          <div className="flex flex-col justify-between w-[100px] flex-shrink-0">
+          <div className="flex flex-col justify-start w-[100px] flex-shrink-0">
              <div className="w-[95px] h-[120px] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-white shadow-md">
                  {photoDataUri ? (
                     <Image
@@ -61,8 +61,8 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
                   )}
              </div>
              {emergencyContacts && (
-                  <div className="mt-1">
-                     <div className="flex items-center gap-1 text-xs font-semibold text-gray-700 mb-0.5">
+                  <div className="mt-2">
+                     <div className="flex items-center gap-1 text-xs font-semibold text-gray-700 mb-0.5 whitespace-nowrap">
                         <Phone className="w-3 h-3"/>
                         <span>জরুরি যোগাযোগ</span>
                      </div>
