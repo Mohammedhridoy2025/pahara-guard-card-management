@@ -24,7 +24,7 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
 }, ref) => {
   return (
     <div ref={ref} className="w-full aspect-[85.6/54] transition-all duration-300 card-print bg-transparent font-headline">
-      <div className="relative w-full h-full text-blue-900 rounded-xl shadow-lg overflow-hidden bg-white flex flex-col border border-gray-300">
+      <div className="relative w-full h-full text-blue-900 rounded-xl shadow-lg overflow-hidden bg-gradient-to-br from-gray-50 to-white flex flex-col border border-gray-300">
         
         {/* Header */}
         <header className="flex justify-between items-center bg-blue-800 text-white p-2">
@@ -74,7 +74,7 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
 
             <div className="mt-auto flex items-end justify-between">
                 {emergencyContacts && (
-                  <div className="max-w-[150px]">
+                  <div className="max-w-[150px] mr-auto">
                      <div className="flex items-center gap-1 text-xs font-semibold text-gray-700 mb-0.5">
                         <Phone className="w-3 h-3"/>
                         <span>জরুরি যোগাযোগ</span>
@@ -92,8 +92,8 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
         </div>
         
         {/* Footer */}
-        <footer className="bg-blue-800 text-white text-center text-xs font-bold p-1">
-            কালিপুর গ্রাম
+        <footer className="bg-blue-800 text-white text-center text-[10px] font-semibold p-1.5">
+            আর্থিক সহযোগিতায় কালিপুর গ্রামের প্রবাসী
         </footer>
       </div>
     </div>
