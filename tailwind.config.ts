@@ -15,8 +15,8 @@ export default {
         code: ['monospace'],
       },
       colors: {
-        'guard-card-start': '#1a3a8f',
-        'guard-card-end': '#2a5bd7',
+        'guard-card-start': '#1d4ed8',
+        'guard-card-end': '#1e40af',
         'gold-start': '#ffd700',
         'gold-mid': '#ffec8b',
         'gold-end': '#ffd700',

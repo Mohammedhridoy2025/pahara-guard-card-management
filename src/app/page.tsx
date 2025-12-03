@@ -72,9 +72,9 @@ export default function Home() {
   const singleForm = useForm<SingleFormValues>({
     resolver: zodResolver(singleFormSchema),
     defaultValues: {
-      name: "কালিপুর গ্রামঃ পাহাড়াদার",
+      name: "মোঃ আল-আমিন",
       address: "কালিপুর, হোমনা, কুমিল্লা",
-      idNumber: "SG-2023-7865",
+      idNumber: "০১",
       emergencyContacts: "সাকিব 01866642992\nসাইদ 01831385524\nনয়ন 01603077790",
       photoDataUri: undefined,
     },
