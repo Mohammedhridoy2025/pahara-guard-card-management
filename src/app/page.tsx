@@ -474,18 +474,18 @@ export default function Home() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                        { (isBulkTransitionPending) ? 
                           Array.from({ length: bulkForm.getValues('guards').length }).map((_, i) => (
-                             <div key={i} className="w-full aspect-[85.6/54] bg-gray-500/50 rounded-xl animate-pulse"></div>
+                             <div key={i} className="w-full max-w-lg mx-auto aspect-[85.6/54] bg-gray-500/50 rounded-xl animate-pulse"></div>
                           ))
                          : bulkCardsData.length > 0 ? (
                            bulkCardsData.map((card, index) => (
-                              <div key={index} className="space-y-2">
+                              <div key={index} className="space-y-2 max-w-lg mx-auto">
                                 <GuardCardPreview ref={(el) => (bulkCardRefs.current[index] = el)} {...card} />
                                 <Button
                                   onClick={() => handleDownload({ current: bulkCardRefs.current[index] }, card.name)}
                                   className="w-full"
                                   variant="secondary"
                                 >
-                                  <Download className="mr-2" />
+                                  <Download className="mr-2 h-5 w-5" />
                                   ডাউনলোড
                                 </Button>
                               </div>
@@ -526,3 +526,5 @@ export default function Home() {
     </>
   );
 }
+
+    
