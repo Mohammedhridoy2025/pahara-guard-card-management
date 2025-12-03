@@ -470,7 +470,7 @@ export default function Home() {
              </div>
              <div className="w-full xl:w-1/2 flex flex-col items-center gap-6">
                  <h2 className="text-2xl font-bold text-white">কার্ড প্রিভিউ</h2>
-                 <div className="w-full p-4 bg-gray-900/20 rounded-lg max-h-[80vh] overflow-y-auto">
+                 <div className="w-full p-4 bg-gray-900/20 rounded-lg max-h-[60vh] overflow-y-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                        { (isBulkTransitionPending) ? 
                           Array.from({ length: bulkForm.getValues('guards').length }).map((_, i) => (
