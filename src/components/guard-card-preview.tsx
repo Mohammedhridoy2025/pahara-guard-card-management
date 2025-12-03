@@ -61,16 +61,16 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
                   )}
              </div>
              {emergencyContacts && (
-                  <div className="mt-2">
-                     <div className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-0.5 whitespace-nowrap">
-                        <Phone className="w-4 h-4"/>
-                        <span>জরুরি যোগাযোগ</span>
-                     </div>
-                     <div className="text-xs whitespace-pre-line leading-tight font-medium text-gray-800">
-                        {emergencyContacts}
-                     </div>
-                  </div>
-                )}
+                <div className="mt-2">
+                   <div className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-0.5 whitespace-nowrap">
+                      <Phone className="w-4 h-4"/>
+                      <span>জরুরি যোগাযোগ</span>
+                   </div>
+                   <div className="text-xs whitespace-pre-line leading-tight font-medium text-gray-800">
+                      {emergencyContacts}
+                   </div>
+                </div>
+              )}
           </div>
           
           {/* Right Column: Info and QR Code */}
