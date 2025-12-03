@@ -23,6 +23,7 @@ export function QRCodeCanvas({ data, className }: QRCodeCanvasProps) {
         {
           width: containerWidth,
           margin: 1,
+          errorCorrectionLevel: 'H', // Set high error correction for better scannability
           color: {
             dark: "#000000",
             light: "#FFFFFF",
