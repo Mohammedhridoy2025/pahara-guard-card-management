@@ -85,9 +85,9 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
               ঠিকানা: {address || "ঠিকানা পাওয়া যায়নি"}
             </div>
 
-            <div className="mt-auto flex justify-end">
+            <div className="mt-auto flex justify-end items-end">
                 <div className="flex-shrink-0">
-                    <QRCodeCanvas data={qrCodeData || ""} className="w-[80px] h-[80px]" />
+                    <QRCodeCanvas data={qrCodeData || ""} className="w-[90px] h-[90px]" />
                 </div>
             </div>
           </div>
