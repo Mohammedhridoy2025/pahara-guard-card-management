@@ -6,7 +6,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toPng } from "html-to-image";
-import { generateQrCode, type GenerateQrCodeInput } from "@/ai/flows/generate-qr-code-flow";
 import { useToast } from "@/hooks/use-toast";
 
 import { GuardCardPreview } from "@/components/guard-card-preview";
@@ -33,6 +32,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Printer, PlusCircle, Trash2, Download } from "lucide-react";
 
+// Static QR code data as requested by the user
+const STATIC_QR_CODE_DATA = `Emergency Contact
+Abu Kawsir 01874227906
+Md Sabbir 01830450327
+Abu Said 01831385524`;
+
 const singleFormSchema = z.object({
   name: z.string().min(1, "পুরো নাম আবশ্যক"),
   address: z.string().min(1, "ঠিকানা আবশ্যক"),
@@ -55,7 +60,15 @@ const bulkFormSchema = z.object({
 });
 type BulkFormValues = z.infer<typeof bulkFormSchema>;
 
-type CardData = GenerateQrCodeInput & { qrCodeData: string | null };
+// Simplified CardData type
+type CardData = {
+  name: string;
+  address: string;
+  idNumber: string;
+  emergencyContacts?: string;
+  photoDataUri?: string | null;
+  qrCodeData: string;
+};
 
 export default function Home() {
   const [singleCardData, setSingleCardData] = useState<CardData | null>(null);
@@ -96,45 +109,28 @@ export default function Home() {
     name: "guards",
   });
 
-  const generateSingleQrCode = async (values: SingleFormValues) => {
-    const result = await generateQrCode(values);
-    setSingleCardData({ ...values, qrCodeData: result.qrCodeData });
-    return { ...values, qrCodeData: result.qrCodeData };
-  };
-
-  const handleUpdateSingleCard = async (values: SingleFormValues) => {
+  const handleUpdateSingleCard = (values: SingleFormValues) => {
     setIsSubmitting(true);
-    try {
-      await generateSingleQrCode(values);
-      toast({
-        title: "সফল!",
-        description: "কার্ড সফলভাবে আপডেট হয়েছে!",
-      });
-    } catch (error) {
-      console.error("Failed to generate QR code:", error);
-      toast({
-        variant: "destructive",
-        title: "ত্রুটি",
-        description: "QR কোড তৈরি করতে ব্যর্থ হয়েছে।",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    const newCardData: CardData = { ...values, qrCodeData: STATIC_QR_CODE_DATA };
+    setSingleCardData(newCardData);
+    toast({
+      title: "সফল!",
+      description: "কার্ড সফলভাবে আপডেট হয়েছে!",
+    });
+    setIsSubmitting(false);
   };
   
-  const handlePrintSingle = async () => {
+  const handlePrintSingle = () => {
     setIsPrinting(true);
     setBulkCardsData([]); // Ensure bulk data is cleared for single print
-    try {
-      await handleUpdateSingleCard(singleForm.getValues());
-      setTimeout(() => {
-        window.print();
-      }, 300);
-    } catch (error) {
-       console.error("Print failed", error);
-    } finally {
-       setIsPrinting(false);
-    }
+    const values = singleForm.getValues();
+    const newCardData: CardData = { ...values, qrCodeData: STATIC_QR_CODE_DATA };
+    setSingleCardData(newCardData);
+    
+    setTimeout(() => {
+      window.print();
+      setIsPrinting(false);
+    }, 300);
   };
 
   const handleDownload = useCallback(async (cardRef: React.RefObject<HTMLDivElement>, cardName: string) => {
@@ -152,8 +148,11 @@ export default function Home() {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1.0,
-        filter: (node: HTMLElement) => {
-          return (node.tagName !== 'LINK' || !(node as HTMLLinkElement).href.includes('fonts.googleapis.com'));
+        filter: (node) => {
+            if (node.tagName === 'LINK' && (node as HTMLLinkElement).href.includes('fonts.googleapis.com')) {
+                return false;
+            }
+            return true;
         },
       });
       const link = document.createElement("a");
@@ -175,54 +174,37 @@ export default function Home() {
   }, [toast]);
 
 
-  const handleGenerateBulkCards = async (values: BulkFormValues) => {
+  const handleGenerateBulkCards = (values: BulkFormValues) => {
     setIsSubmitting(true);
-    try {
-      const cardDataPromises = values.guards.map(async (guard) => {
-        const input: GenerateQrCodeInput = {
-          ...guard,
-          address: values.address,
-          emergencyContacts: values.emergencyContacts,
-        };
-        const result = await generateQrCode(input);
-        return { ...input, qrCodeData: result.qrCodeData };
-      });
+    const generatedCards = values.guards.map((guard) => {
+      const input = {
+        ...guard,
+        address: values.address,
+        emergencyContacts: values.emergencyContacts,
+      };
+      return { ...input, qrCodeData: STATIC_QR_CODE_DATA };
+    });
 
-      const generatedCards = await Promise.all(cardDataPromises);
-      startBulkTransition(() => {
-        setBulkCardsData(generatedCards);
-        bulkCardRefs.current = generatedCards.map(() => null);
-      });
-      
-      toast({
-        title: "সফল!",
-        description: `${generatedCards.length}টি কার্ড সফলভাবে তৈরি হয়েছে।`,
-      });
-    } catch (error) {
-      console.error("Failed to generate bulk QR codes:", error);
-      toast({
-        variant: "destructive",
-        title: "ত্রুটি",
-        description: "বাল্ক কার্ড তৈরি করতে ব্যর্থ হয়েছে।",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    startBulkTransition(() => {
+      setBulkCardsData(generatedCards);
+      bulkCardRefs.current = generatedCards.map(() => null);
+    });
+    
+    toast({
+      title: "সফল!",
+      description: `${generatedCards.length}টি কার্ড সফলভাবে তৈরি হয়েছে।`,
+    });
+    setIsSubmitting(false);
   };
   
-  const handlePrintBulk = async () => {
+  const handlePrintBulk = () => {
     setIsPrinting(true);
-    try {
-      await handleGenerateBulkCards(bulkForm.getValues());
-      // A short delay to allow all cards and QR codes to render
-      setTimeout(() => {
-        window.print();
-      }, 500);
-    } catch (error) {
-      console.error("Print failed", error);
-    } finally {
-       setIsPrinting(false);
-    }
+    handleGenerateBulkCards(bulkForm.getValues());
+    // A short delay to allow all cards to render
+    setTimeout(() => {
+      window.print();
+      setIsPrinting(false);
+    }, 500);
   };
 
   const handlePhotoUpload = (
@@ -355,7 +337,7 @@ export default function Home() {
 
             <div className="w-full lg:w-3/5 xl:w-2/3 flex flex-col items-center gap-6">
               <div className="w-full max-w-lg">
-                 <GuardCardPreview ref={singleCardRef} {...(singleCardData || singleForm.getValues())} qrCodeData={singleCardData?.qrCodeData ?? null} />
+                 <GuardCardPreview ref={singleCardRef} {...(singleCardData || { ...singleForm.getValues(), qrCodeData: STATIC_QR_CODE_DATA })} />
               </div>
               <div className="w-full max-w-md grid grid-cols-2 gap-4">
                  <Button onClick={() => handleDownload(singleCardRef, singleForm.getValues("name"))} className="w-full" size="lg">
@@ -537,13 +519,10 @@ export default function Home() {
             </div>
         ) : (
              <div className="single-card-print-container">
-                 <GuardCardPreview {...(singleCardData || singleForm.getValues())} qrCodeData={singleCardData?.qrCodeData ?? null} />
+                 <GuardCardPreview {...(singleCardData || { ...singleForm.getValues(), qrCodeData: STATIC_QR_CODE_DATA })} />
              </div>
         )}
     </div>
     </>
   );
 }
-
-    
-    
