@@ -27,12 +27,17 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
       <div className="relative w-full h-full text-blue-900 rounded-xl shadow-lg overflow-hidden bg-gradient-to-br from-gray-50 to-white flex flex-col border border-gray-300">
         
         {/* Header */}
-        <header className="flex justify-between items-center bg-blue-800 text-white p-2">
+        <header className="relative flex justify-between items-center bg-blue-800 text-white p-2">
           <div className="text-left">
             <h2 className="font-bold text-sm leading-tight">সিকিউরিটি সার্ভিস</h2>
             <p className="text-xs font-medium opacity-80">পাহাড়াদারদের আইডি কার্ড</p>
           </div>
           <ShieldCheck className="w-8 h-8 opacity-90" />
+          <div className="absolute bottom-0 left-0 right-0 h-4">
+             <svg viewBox="0 0 100 10" preserveAspectRatio="none" className="w-full h-full">
+                <path d="M0,10 Q50,0 100,10 L100,10 L0,10 Z" fill="white"></path>
+             </svg>
+          </div>
         </header>
 
         {/* Watermark */}
