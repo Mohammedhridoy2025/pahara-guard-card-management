@@ -149,10 +149,10 @@ export default function Home() {
         pixelRatio: 2,
         quality: 1.0,
         filter: (node) => {
-            if (node.tagName === 'LINK' && (node as HTMLLinkElement).href.includes('fonts.googleapis.com')) {
-                return false;
-            }
-            return true;
+          if (node.tagName === 'LINK' && (node as HTMLLinkElement).href.includes('fonts.googleapis.com')) {
+            return false;
+          }
+          return true;
         },
       });
       const link = document.createElement("a");
@@ -471,14 +471,17 @@ export default function Home() {
              <div className="w-full xl:w-1/2 flex flex-col items-center gap-6">
                  <h2 className="text-2xl font-bold text-white">কার্ড প্রিভিউ</h2>
                  <div className="w-full p-4 bg-gray-900/20 rounded-lg max-h-[60vh] overflow-y-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-6">
                        { (isBulkTransitionPending) ? 
                           Array.from({ length: bulkForm.getValues('guards').length }).map((_, i) => (
-                             <div key={i} className="w-full max-w-lg mx-auto aspect-[85.6/54] bg-gray-500/50 rounded-xl animate-pulse"></div>
+                            <div key={i} className="max-w-lg mx-auto w-full">
+                                <div className="w-full aspect-[85.6/54] bg-gray-500/50 rounded-xl animate-pulse"></div>
+                            </div>
                           ))
                          : bulkCardsData.length > 0 ? (
                            bulkCardsData.map((card, index) => (
-                              <div key={index} className="space-y-2 max-w-lg mx-auto">
+                            <div key={index} className="max-w-lg mx-auto w-full">
+                              <div className="space-y-2">
                                 <GuardCardPreview ref={(el) => (bulkCardRefs.current[index] = el)} {...card} />
                                 <Button
                                   onClick={() => handleDownload({ current: bulkCardRefs.current[index] }, card.name)}
@@ -489,6 +492,7 @@ export default function Home() {
                                   ডাউনলোড
                                 </Button>
                               </div>
+                            </div>
                            ))
                         ) : (
                            <p className="text-white/70 text-center col-span-full py-10">
