@@ -74,7 +74,7 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
 
             <div className="mt-auto flex items-end justify-between">
                 {emergencyContacts && (
-                  <div className="max-w-[150px] mr-auto">
+                  <div className="max-w-[150px]">
                      <div className="flex items-center gap-1 text-xs font-semibold text-gray-700 mb-0.5">
                         <Phone className="w-3 h-3"/>
                         <span>জরুরি যোগাযোগ</span>
