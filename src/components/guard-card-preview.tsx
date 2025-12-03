@@ -87,7 +87,7 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
 
             <div className="mt-auto flex justify-end">
                 <div className="flex-shrink-0">
-                    <QRCodeCanvas data={qrCodeData || ""} className="w-[75px] h-[75px]" />
+                    <QRCodeCanvas data={qrCodeData || ""} className="w-[80px] h-[80px]" />
                 </div>
             </div>
           </div>
