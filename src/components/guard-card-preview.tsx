@@ -41,8 +41,9 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
         </div>
 
         {/* Card Body */}
-        <div className="relative flex items-center p-3 gap-3 flex-1 z-10">
-          <div className="flex-shrink-0 w-[100px] h-full relative self-start">
+        <div className="relative flex p-3 gap-3 flex-1 z-10">
+          {/* Left Column: Photo and Emergency Contacts */}
+          <div className="flex flex-col justify-between w-[100px] flex-shrink-0">
              <div className="w-[95px] h-[120px] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-white shadow-md">
                  {photoDataUri ? (
                     <Image
@@ -59,8 +60,20 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
                     </div>
                   )}
              </div>
+             {emergencyContacts && (
+                  <div className="mt-1">
+                     <div className="flex items-center gap-1 text-xs font-semibold text-gray-700 mb-0.5">
+                        <Phone className="w-3 h-3"/>
+                        <span>জরুরি যোগাযোগ</span>
+                     </div>
+                     <div className="text-[10px] whitespace-pre-line leading-tight font-medium text-gray-800">
+                        {emergencyContacts}
+                     </div>
+                  </div>
+                )}
           </div>
           
+          {/* Right Column: Info and QR Code */}
           <div className="flex-1 min-w-0 h-full flex flex-col">
             <div className="font-extrabold text-[22px] leading-tight text-blue-950 truncate" title={name}>
               {name || "নাম পাওয়া যায়নি"}
@@ -72,21 +85,10 @@ export const GuardCardPreview = React.forwardRef<HTMLDivElement, GuardCardPrevie
               ঠিকানা: {address || "ঠিকানা পাওয়া যায়নি"}
             </div>
 
-            <div className="mt-auto flex items-end justify-between">
-                {emergencyContacts && (
-                  <div className="max-w-[150px]">
-                     <div className="flex items-center gap-1 text-xs font-semibold text-gray-700 mb-0.5">
-                        <Phone className="w-3 h-3"/>
-                        <span>জরুরি যোগাযোগ</span>
-                     </div>
-                     <div className="text-[10px] whitespace-pre-line leading-tight font-medium text-gray-800">
-                        {emergencyContacts}
-                     </div>
-                  </div>
-                )}
-                 <div className="flex-shrink-0">
+            <div className="mt-auto flex justify-end">
+                <div className="flex-shrink-0">
                     <QRCodeCanvas data={qrCodeData || ""} className="w-[75px] h-[75px]" />
-                 </div>
+                </div>
             </div>
           </div>
         </div>
