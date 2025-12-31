@@ -89,7 +89,10 @@ export default function Home() {
       name: "মোঃ আল-আমিন",
       address: "কালিপুর, হোমনা, কুমিল্লা",
       idNumber: "০১",
-      emergencyContacts: "কাউছার-01874227906\nসাইদ-01831385524\nসাব্বির-01830450327\nসাইফুদ্দিন-01814296777",
+      emergencyContacts: `কাউছার-01874227906
+সাইদ-01831385524
+সাব্বির-01830450327
+সাইফুদ্দিন-01814296777`,
       photoDataUri: undefined,
     },
     mode: "onChange",
@@ -100,7 +103,10 @@ export default function Home() {
     defaultValues: {
       guards: [{ name: "", idNumber: "", photoDataUri: "" }],
       address: "কালিপুর, হোমনা, কুমিল্লা",
-      emergencyContacts: "কাউছার-01874227906\nসাইদ-01831385524\nসাব্বির-01830450327\nসাইফুদ্দিন-01814296777",
+      emergencyContacts: `কাউছার-01874227906
+সাইদ-01831385524
+সাব্বির-01830450327
+সাইফুদ্দিন-01814296777`,
     },
     mode: "onChange",
   });
