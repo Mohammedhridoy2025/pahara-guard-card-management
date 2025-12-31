@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useTransition, useRef, useCallback } from "react";
+import { useState, useTransition, useRef, useCallback, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -98,6 +98,14 @@ export default function Home() {
     },
     mode: "onChange",
   });
+  
+  useEffect(() => {
+    setSingleCardData({
+        ...singleForm.getValues(),
+        qrCodeData: STATIC_QR_CODE_DATA
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const bulkForm = useForm<BulkFormValues>({
     resolver: zodResolver(bulkFormSchema),
@@ -157,7 +165,6 @@ export default function Home() {
         cacheBust: true,
         pixelRatio: 2,
         quality: 1.0,
-        skipAutoScale: true,
       });
       const link = document.createElement("a");
       link.download = `${cardName.replace(/\s+/g, '_').toLowerCase()}_card.png`;
@@ -341,7 +348,7 @@ export default function Home() {
 
             <div className="w-full lg:w-3/5 xl:w-2/3 flex flex-col items-center gap-6">
               <div className="w-full max-w-lg">
-                 <GuardCardPreview ref={singleCardRef} {...(singleCardData || { ...singleForm.getValues(), qrCodeData: STATIC_QR_CODE_DATA })} />
+                 {singleCardData ? <GuardCardPreview ref={singleCardRef} {...singleCardData} /> : <div className="w-full aspect-[85.6/54] bg-gray-500/50 rounded-xl animate-pulse"></div> }
               </div>
               <div className="w-full max-w-md grid grid-cols-2 gap-4">
                  <Button onClick={() => handleDownload(singleCardRef, singleForm.getValues("name"))} className="w-full" size="lg">
@@ -527,10 +534,11 @@ export default function Home() {
             </div>
         ) : (
              <div className="single-card-print-container">
-                 <GuardCardPreview {...(singleCardData || { ...singleForm.getValues(), qrCodeData: STATIC_QR_CODE_DATA })} />
+                 {singleCardData ? <GuardCardPreview {...singleCardData} /> : null }
              </div>
         )}
     </div>
     </>
   );
 }
+ 
