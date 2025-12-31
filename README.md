@@ -70,12 +70,12 @@ Open [http://localhost:9002](http://localhost:9002) with your browser to see the
 
 ### Step 1: Upload to GitHub (ধাপ ১: GitHub-এ আপলোড করুন)
 
-প্রথমে আপনাকে GitHub-এ একটি নতুন রিপোজিটরি তৈরি করতে হবে। ধরা যাক, আপনার রিপোজিটরির নাম `pahara-guard-card-management`।
+প্রথমে আপনাকে GitHub-এ একটি নতুন রিপোজিটরি তৈরি করতে হবে। আপনার রিপোজিটরির নাম `pahara-guard-card-management` হওয়া উচিত।
 
 আপনার কম্পিউটারের টার্মিনালে প্রজেক্ট ফোল্ডারে যান এবং নিচের কমান্ডগুলো পর্যায়ক্রমে চালান:
 
 ```bash
-# ধাপ ১: লোকাল রিপোজিটরি শুরু করুন
+# ধাপ ১: লোকাল রিপোজিটরি শুরু করুন (যদি আগে না করে থাকেন)
 git init
 
 # ধাপ ২: সব ফাইল git-এ যোগ করুন
@@ -95,7 +95,7 @@ git remote add origin https://github.com/Mohammedhridoy2025/pahara-guard-card-ma
 git push -u origin main
 ```
 
-**বিশেষ দ্রষ্টব্য:** `your-username` এর জায়গায় আপনার GitHub ইউজারনেম ব্যবহার করুন।
+**বিশেষ দ্রষ্টব্য:** যদি আপনি `git remote add` কমান্ডটি চালানোর সময় `error: remote origin already exists.` বার্তাটি পান, তার মানে আপনার সিস্টেমে আগে থেকেই একটি `origin` যুক্ত করা আছে। সেক্ষেত্রে, প্রথমে পুরনোটি মুছে ফেলুন `git remote remove origin` কমান্ড দিয়ে, এবং তারপর আবার নতুন করে ধাপ ৫ চালান।
 
 ### Step 2: Deploy to Vercel (ধাপ ২: Vercel-এ ডেপ্লয় করুন)
 
