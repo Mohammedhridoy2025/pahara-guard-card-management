@@ -89,7 +89,8 @@ export default function Home() {
       name: "মোঃ আল-আমিন",
       address: "কালিপুর, হোমনা, কুমিল্লা",
       idNumber: "০১",
-      emergencyContacts: `কাউছার-01874227906
+      emergencyContacts: `জরুরি প্রয়োজনে যোগাযোগ
+কাউছার-01874227906
 সাইদ-01831385524
 সাব্বির-01830450327
 সাইফুদ্দিন-01814296777`,
@@ -103,7 +104,8 @@ export default function Home() {
     defaultValues: {
       guards: [{ name: "", idNumber: "", photoDataUri: "" }],
       address: "কালিপুর, হোমনা, কুমিল্লা",
-      emergencyContacts: `কাউছার-01874227906
+      emergencyContacts: `জরুরি প্রয়োজনে যোগাযোগ
+কাউছার-01874227906
 সাইদ-01831385524
 সাব্বির-01830450327
 সাইফুদ্দিন-01814296777`,
@@ -156,15 +158,6 @@ export default function Home() {
         pixelRatio: 2,
         quality: 1.0,
         skipAutoScale: true,
-        filter: (node) => {
-           if (
-            node.tagName === 'LINK' &&
-            (node as HTMLLinkElement).href.includes('fonts.googleapis.com')
-          ) {
-            return false;
-          }
-          return true;
-        },
       });
       const link = document.createElement("a");
       link.download = `${cardName.replace(/\s+/g, '_').toLowerCase()}_card.png`;
