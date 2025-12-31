@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useTransition, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -77,8 +77,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
   const { toast } = useToast();
-  const [isBulkTransitionPending, startBulkTransition] = useTransition();
-
+  
   const singleCardRef = useRef<HTMLDivElement>(null);
   const bulkCardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -89,17 +88,14 @@ export default function Home() {
       name: "মোঃ আল-আমিন",
       address: "কালিপুর, হোমনা, কুমিল্লা",
       idNumber: "০১",
-      emergencyContacts: `জরুরি প্রয়োজনে যোগাযোগ
-কাউছার-01874227906
-সাইদ-01831385524
-সাব্বির-01830450327
-সাইফুদ্দিন-01814296777`,
+      emergencyContacts: STATIC_QR_CODE_DATA,
       photoDataUri: undefined,
     },
     mode: "onChange",
   });
   
   useEffect(() => {
+    // Set initial card data only on the client to avoid hydration mismatch
     setSingleCardData({
         ...singleForm.getValues(),
         qrCodeData: STATIC_QR_CODE_DATA
@@ -112,11 +108,7 @@ export default function Home() {
     defaultValues: {
       guards: [{ name: "", idNumber: "", photoDataUri: "" }],
       address: "কালিপুর, হোমনা, কুমিল্লা",
-      emergencyContacts: `জরুরি প্রয়োজনে যোগাযোগ
-কাউছার-01874227906
-সাইদ-01831385524
-সাব্বির-01830450327
-সাইফুদ্দিন-01814296777`,
+      emergencyContacts: STATIC_QR_CODE_DATA,
     },
     mode: "onChange",
   });
@@ -139,11 +131,13 @@ export default function Home() {
   
   const handlePrintSingle = () => {
     setIsPrinting(true);
-    setBulkCardsData([]); // Ensure bulk data is cleared for single print
+    // Clear bulk data to ensure only the single card is in the print layout
+    setBulkCardsData([]); 
     const values = singleForm.getValues();
     const newCardData: CardData = { ...values, qrCodeData: STATIC_QR_CODE_DATA };
     setSingleCardData(newCardData);
     
+    // Allow state to update before printing
     setTimeout(() => {
       window.print();
       setIsPrinting(false);
@@ -163,7 +157,7 @@ export default function Home() {
     try {
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
-        pixelRatio: 2,
+        pixelRatio: 2, // Higher resolution
         quality: 1.0,
       });
       const link = document.createElement("a");
@@ -195,11 +189,10 @@ export default function Home() {
       };
       return { ...input, qrCodeData: STATIC_QR_CODE_DATA };
     });
-
+    
+    // Reset refs array
     bulkCardRefs.current = generatedCards.map(() => null);
-    startBulkTransition(() => {
-      setBulkCardsData(generatedCards);
-    });
+    setBulkCardsData(generatedCards);
     
     toast({
       title: "সফল!",
@@ -211,7 +204,7 @@ export default function Home() {
   const handlePrintBulk = () => {
     setIsPrinting(true);
     handleGenerateBulkCards(bulkForm.getValues());
-    // A short delay to allow all cards to render
+    // A short delay to allow all cards to render before printing
     setTimeout(() => {
       window.print();
       setIsPrinting(false);
@@ -470,9 +463,9 @@ export default function Home() {
                                নতুন গার্ড যোগ করুন
                             </Button>
 
-                            <Button type="submit" disabled={isSubmitting || isBulkTransitionPending} className="w-full !mt-8">
-                               {isSubmitting || isBulkTransitionPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                               {isSubmitting || isBulkTransitionPending ? 'জেনারেট হচ্ছে...' : 'কার্ডগুলো জেনারেট করুন'}
+                            <Button type="submit" disabled={isSubmitting} className="w-full !mt-8">
+                               {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                               {isSubmitting ? 'জেনারেট হচ্ছে...' : 'কার্ডগুলো জেনারেট করুন'}
                             </Button>
                          </form>
                       </Form>
@@ -483,7 +476,7 @@ export default function Home() {
                  <h2 className="text-2xl font-bold text-white">কার্ড প্রিভিউ</h2>
                  <div className="w-full p-4 bg-gray-900/20 rounded-lg max-h-[60vh] overflow-y-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-6">
-                       { (isBulkTransitionPending) ? 
+                       { isSubmitting ? 
                           Array.from({ length: bulkForm.getValues('guards').length }).map((_, i) => (
                             <div key={i} className="max-w-lg mx-auto w-full">
                                 <div className="w-full aspect-[85.6/54] bg-gray-500/50 rounded-xl animate-pulse"></div>
@@ -528,6 +521,7 @@ export default function Home() {
             <div className="bulk-print-container">
                 {bulkCardsData.map((card, index) => (
                     <div key={`print-${index}`} className="print-card-wrapper">
+                        {/* We render the component directly, no ref needed for printing */}
                         <GuardCardPreview {...card} />
                     </div>
                 ))}
@@ -541,5 +535,5 @@ export default function Home() {
     </>
   );
 }
- 
- 
+
+    
