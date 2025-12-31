@@ -33,10 +33,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Printer, PlusCircle, Trash2, Download } from "lucide-react";
 
 // Static QR code data as requested by the user
-const STATIC_QR_CODE_DATA = `Emergency Contact
-Abu Kawsir 01874227906
-Md Sabbir 01830450327
-Abu Said 01831385524`;
+const STATIC_QR_CODE_DATA = `জরুরি প্রয়োজনে যোগাযোগ
+কাউছার-01874227906
+সাইদ-01831385524
+সাব্বির-01830450327
+সাইফুদ্দিন-01814296777`;
 
 const singleFormSchema = z.object({
   name: z.string().min(1, "পুরো নাম আবশ্যক"),
@@ -88,7 +89,7 @@ export default function Home() {
       name: "মোঃ আল-আমিন",
       address: "কালিপুর, হোমনা, কুমিল্লা",
       idNumber: "০১",
-      emergencyContacts: "কাউছার 01874227906\nসাইদ 01831385524\nসাব্বির 01830450327",
+      emergencyContacts: "কাউছার-01874227906\nসাইদ-01831385524\nসাব্বির-01830450327\nসাইফুদ্দিন-01814296777",
       photoDataUri: undefined,
     },
     mode: "onChange",
@@ -99,7 +100,7 @@ export default function Home() {
     defaultValues: {
       guards: [{ name: "", idNumber: "", photoDataUri: "" }],
       address: "কালিপুর, হোমনা, কুমিল্লা",
-      emergencyContacts: "কাউছার 01874227906\nসাইদ 01831385524\nসাব্বির 01830450327",
+      emergencyContacts: "কাউছার-01874227906\nসাইদ-01831385524\nসাব্বির-01830450327\nসাইফুদ্দিন-01814296777",
     },
     mode: "onChange",
   });
@@ -316,7 +317,7 @@ export default function Home() {
                               <Textarea
                                 placeholder="নাম এবং মোবাইল নম্বর লিখুন"
                                 {...field}
-                                rows={3}
+                                rows={4}
                               />
                             </FormControl>
                             <FormMessage />
@@ -390,7 +391,7 @@ export default function Home() {
                                      <FormItem>
                                         <FormLabel>সাধারণ জরুরি যোগাযোগ</FormLabel>
                                         <FormControl>
-                                           <Textarea placeholder="সকল কার্ডের জন্য নম্বর" {...field} rows={3}/>
+                                           <Textarea placeholder="সকল কার্ডের জন্য নম্বর" {...field} rows={4}/>
                                         </FormControl>
                                         <FormMessage />
                                      </FormItem>
