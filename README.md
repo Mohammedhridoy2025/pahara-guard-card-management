@@ -89,7 +89,7 @@ git branch -M main
 
 # ধাপ ৫: আপনার GitHub রিপোজিটরির সাথে সংযোগ স্থাপন করুন
 # নিচের URL-টি আপনার নিজের GitHub রিপোজিটরির URL দিয়ে পরিবর্তন করুন
-git remote add origin https://github.com/your-username/pahara-guard-card-management.git
+git remote add origin https://github.com/Mohammedhridoy2025/pahara-guard-card-management.git
 
 # ধাপ ৬: কোড GitHub-এ পুশ করুন
 git push -u origin main
