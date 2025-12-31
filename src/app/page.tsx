@@ -196,9 +196,9 @@ export default function Home() {
       return { ...input, qrCodeData: STATIC_QR_CODE_DATA };
     });
 
+    bulkCardRefs.current = generatedCards.map(() => null);
     startBulkTransition(() => {
       setBulkCardsData(generatedCards);
-      bulkCardRefs.current = generatedCards.map(() => null);
     });
     
     toast({
@@ -541,4 +541,5 @@ export default function Home() {
     </>
   );
 }
+ 
  
