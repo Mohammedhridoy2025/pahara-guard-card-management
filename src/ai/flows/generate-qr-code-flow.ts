@@ -48,7 +48,6 @@ const generateQrCodeFlow = ai.defineFlow(
       address: input.address,
       idNumber: input.idNumber,
       emergencyContacts: input.emergencyContacts,
-      timestamp: new Date().toISOString(),
     });
 
     return {qrCodeData: qrData};
